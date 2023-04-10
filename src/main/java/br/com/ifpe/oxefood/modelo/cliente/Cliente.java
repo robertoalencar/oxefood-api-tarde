@@ -30,7 +30,7 @@ public class Cliente extends EntidadeAuditavel  {
     @Column
     private String nome;
 
-    @Column(name = "TD_NASCIMENTO")
+    @Column
     private LocalDate dataNascimento;
 
     @Column
