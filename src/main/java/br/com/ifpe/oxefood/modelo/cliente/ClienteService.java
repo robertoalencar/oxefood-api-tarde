@@ -1,5 +1,7 @@
 package br.com.ifpe.oxefood.modelo.cliente;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +21,16 @@ public class ClienteService extends GenericService {
         super.preencherCamposAuditoria(cliente);
         return repository.save(cliente);
     }
+
+    public List<Cliente> listarTodos() {
+  
+        return repository.findAll();
+    }
+ 
+    public Cliente obterPorID(Long id) {
+ 
+        return repository.findById(id).get();
+    }
+ 
 
 }
