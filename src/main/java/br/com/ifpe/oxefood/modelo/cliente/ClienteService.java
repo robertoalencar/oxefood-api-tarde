@@ -11,7 +11,7 @@ import br.com.ifpe.oxefood.util.entity.GenericService;
 
 @Service
 public class ClienteService extends GenericService {
-    
+
     @Autowired
     private ClienteRepository repository;
 
@@ -31,20 +31,29 @@ public class ClienteService extends GenericService {
         cliente.setCpf(clienteAlterado.getCpf());
         cliente.setFoneCelular(clienteAlterado.getFoneCelular());
         cliente.setFoneFixo(clienteAlterado.getFoneFixo());
-            
+
         super.preencherCamposAuditoria(cliente);
         repository.save(cliente);
     }
 
     public List<Cliente> listarTodos() {
-  
+
         return repository.findAll();
     }
- 
+
     public Cliente obterPorID(Long id) {
- 
+
         return repository.findById(id).get();
     }
- 
+
+    @Transactional
+    public void delete(Long id) {
+
+        Cliente cliente = repository.findById(id).get();
+        cliente.setHabilitado(Boolean.FALSE);
+        super.preencherCamposAuditoria(cliente);
+
+        repository.save(cliente);
+    }
 
 }
