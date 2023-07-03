@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.ifpe.oxefood.util.entity.GenericService;
+import br.com.ifpe.oxefood.util.exception.ClienteException;
 
 @Service
 public class ClienteService extends GenericService {
@@ -21,6 +22,11 @@ public class ClienteService extends GenericService {
 
     @Transactional
     public Cliente save(Cliente cliente) {
+
+        Cliente clienteConsultado = repository.consultarPorNome(cliente.getNome());
+        if (clienteConsultado != null) {
+            throw new ClienteException(ClienteException.MSG_NOME_DUPLICADO, cliente.getNome());
+        }
 
         super.preencherCamposAuditoria(cliente);
         return repository.save(cliente);

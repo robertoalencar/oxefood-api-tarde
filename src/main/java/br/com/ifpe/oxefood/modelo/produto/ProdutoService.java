@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.ifpe.oxefood.util.entity.GenericService;
+import br.com.ifpe.oxefood.util.exception.ProdutoException;
 
 @Service
 public class ProdutoService extends GenericService {
@@ -17,6 +18,10 @@ public class ProdutoService extends GenericService {
 
     @Transactional
     public Produto save(Produto produto) {
+
+        if (produto.getValorUnitario() < 10) {
+	        throw new ProdutoException(ProdutoException.MSG_VALOR_MINIMO_PRODUTO);
+	    }
 
         super.preencherCamposAuditoria(produto);
         return repository.save(produto);
