@@ -36,6 +36,10 @@ public class ProdutoService {
 
     public List<Produto> filtrar(String codigo, String titulo, Long idCategoria) {
 
+        System.out.println("codigo: " + codigo);
+        System.out.println("titulo: " + titulo);
+        System.out.println("idCategoria: " + idCategoria);
+
         List<Produto> listaProdutos = repository.findAll();
 
         if ((codigo != null && !"".equals(codigo)) &&
