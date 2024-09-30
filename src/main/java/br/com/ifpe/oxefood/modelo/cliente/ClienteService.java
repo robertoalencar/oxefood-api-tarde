@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.ifpe.oxefood.modelo.acesso.Usuario;
 import br.com.ifpe.oxefood.modelo.acesso.UsuarioService;
+import br.com.ifpe.oxefood.modelo.mensagens.EmailService;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -23,6 +24,9 @@ public class ClienteService {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private EmailService emailService;
+
     @Transactional
     public Cliente save(Cliente cliente, Usuario usuarioLogado) {
 
@@ -33,7 +37,12 @@ public class ClienteService {
         cliente.setDataCriacao(LocalDate.now());
         cliente.setCriadoPor(usuarioLogado);
         
-        return repository.save(cliente);
+        Cliente clienteSalvo = repository.save(cliente);
+
+       emailService.enviarEmailConfirmacaoCadastroCliente(clienteSalvo);
+
+       return clienteSalvo;
+
     }
 
     public List<Cliente> listarTodos() {
